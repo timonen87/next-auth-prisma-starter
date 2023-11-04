@@ -5,7 +5,12 @@ const page = async () => {
   const session = await getServerSession(authOptions);
 
   if (session?.user) {
-    return <p>Добро пожаловать в Админ панель, {session?.user.username}</p>;
+    return (
+      <p>
+        Добро пожаловать в Админ панель,{" "}
+        {session?.user.username || session.user.name}
+      </p>
+    );
   }
 
   return (

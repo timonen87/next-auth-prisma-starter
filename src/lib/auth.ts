@@ -1,9 +1,10 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import GoogleProvider from "next-auth/providers/google";
+
 import { db } from "./db";
 import { NextAuthOptions } from "next-auth";
 import { compare } from "bcrypt";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -21,7 +22,6 @@ export const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       name: "Credentials",
-
       credentials: {
         email: {
           label: "Email",
@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: `${dbUser.id}`,
+          id: dbUser.id,
           username: dbUser.username,
           email: dbUser.email,
         };
