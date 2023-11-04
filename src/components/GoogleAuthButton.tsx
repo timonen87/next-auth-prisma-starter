@@ -8,9 +8,12 @@ import { signIn } from "next-auth/react";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface GoogleAuthButtonProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
+const GoogleAuthButton: FC<GoogleAuthButtonProps> = ({
+  className,
+  ...props
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
@@ -18,7 +21,9 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
     setIsLoading(true);
 
     try {
-      await signIn("google", { callbackUrl: "http://localhost:300/admin" });
+      await signIn("google", {
+        callbackUrl: `${window.location.origin}/admin`,
+      });
     } catch (error) {
       toast({
         title: "Ошибка входа",
@@ -44,4 +49,4 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   );
 };
 
-export default UserAuthForm;
+export default GoogleAuthButton;

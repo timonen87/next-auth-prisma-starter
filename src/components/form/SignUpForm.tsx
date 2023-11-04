@@ -17,7 +17,8 @@ import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import UserAuthForm from "../UserAuthForm";
+import UserAuthForm from "../GoogleAuthButton";
+import GoogleAuthButton from "../GoogleAuthButton";
 
 const FormSchema = z
   .object({
@@ -145,7 +146,7 @@ const SignUpForm = () => {
         или
       </div>
       {/* <GoogleSignInButton>Через Google</GoogleSignInButton> */}
-      <UserAuthForm />
+      <GoogleAuthButton />
       <p className="text-center text-sm text-gray-600 mt-2">
         Если у вас уже есть аккаунт, пожалуйтса&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-in">
