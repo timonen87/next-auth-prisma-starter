@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Provider from "@/components/Provider";
 import { Toaster } from "@/components/ui/toaster";
+import { ModalProvider } from "@/providers/modal-provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Provider>
           <main className="h-screen flex flex-col justify-center items-center">
             <Navbar />
+            <ModalProvider />
             {children}
           </main>
         </Provider>

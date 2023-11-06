@@ -4,6 +4,7 @@ import { Ghost } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import UserAccount from "./UserAccount";
+import UserAvatar from "./UserAvatar";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -14,7 +15,7 @@ const Navbar = async () => {
           <Ghost />
         </Link>
         {session?.user ? (
-          <UserAccount />
+          <UserAvatar user={session.user} />
         ) : (
           <Link className={buttonVariants()} href="/sign-in">
             Войти

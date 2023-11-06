@@ -85,7 +85,7 @@ const SignInForm = () => {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder=" Введите пароль"
                     {...field}
                   />
                 </FormControl>
