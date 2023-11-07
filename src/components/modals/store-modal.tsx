@@ -39,7 +39,7 @@ export const StoreModal = () => {
       setLoading(true);
       const response = await axios.post("/api/stores", values);
       console.log(response.data);
-      // window.location.assign(`/${response.data.id}`);
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
       toast({
         title: "Error",
@@ -48,6 +48,11 @@ export const StoreModal = () => {
       });
     } finally {
       setLoading(false);
+
+      toast({
+        title: "Категория успешно создана",
+        description: "Saccesfully",
+      });
     }
   };
 

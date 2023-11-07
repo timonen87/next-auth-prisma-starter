@@ -1,17 +1,28 @@
-import { authOptions } from "@/lib/auth";
+import { authOptions, getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    // const session = await getServerSession(authOptions);
+    const session = await getAuthSession();
     const body = await req.json();
 
     const { name } = body;
-    // if (!session?.user) {
-    //   return new NextResponse("Unauthorized", { status: 401 });
-    // }
+
+    if (!session) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const categoryExists = await db.store.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    if (categoryExists) {
+      return new Response("Категория уже существует", { status: 409 });
+    }
 
     if (!name) {
       return new NextResponse("Обязательное поле", { status: 400 });
@@ -20,7 +31,7 @@ export async function POST(req: Request) {
     const store = await db.store.create({
       data: {
         name,
-        // userId: session.user?.id,
+        creatorId: session.user.id,
       },
     });
 
