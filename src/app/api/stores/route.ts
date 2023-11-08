@@ -14,13 +14,13 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const categoryExists = await db.store.findFirst({
+    const storeExists = await db.store.findFirst({
       where: {
         name,
       },
     });
 
-    if (categoryExists) {
+    if (storeExists) {
       return new Response("Категория уже существует", { status: 409 });
     }
 
