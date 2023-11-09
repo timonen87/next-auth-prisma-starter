@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,11 +14,14 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@prisma/client";
 import { Separator } from "@radix-ui/react-separator";
+import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { AlertModal } from "@/components/modals/alert-modal";
+import { useOrigin } from "../../../../../../../hooks/use-origin";
 
 const formShema = z.object({
   name: z.string().min(2),
@@ -32,6 +36,7 @@ interface SettingsFormProps {
 const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,11 +47,42 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: SettingsFromValues) => {
-    console.log(data);
+    // console.log(data);
+    try {
+      setLoading(true);
+      await axios.patch(`/api/stories/${params.storeId}`, data);
+      router.refresh();
+      console.log("Категория обновлена");
+    } catch (error) {
+      console.log("Что то произошло", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/api/stores/${params.storeId}`);
+      router.refresh();
+      router.push("/");
+      console.log("Категория удалена");
+    } catch (error: any) {
+      console.log("Что то произошло", error);
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
 
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
       <div className="flex items-center justify-between">
         <Heading title="Настройки" description="Изменить название категории" />
         <Button
@@ -70,11 +106,11 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Наазвание</FormLabel>
+                  <FormLabel>Название</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Store name"
+                      placeholder="Название категории"
                       {...field}
                     />
                   </FormControl>
@@ -84,7 +120,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            Save changes
+            Сохранить изменения
           </Button>
         </form>
       </Form>
