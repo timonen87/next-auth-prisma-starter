@@ -55,7 +55,7 @@ const SignInForm = () => {
       });
     } else {
       router.refresh();
-      router.push("/admin");
+      router.push("/");
     }
   };
 
