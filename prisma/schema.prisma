@@ -43,17 +43,24 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  password      String?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+
+  createdStories Store[] @relation("CreatedBy")
+
+  password  String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts Account[]
+  sessions Session[]
 }
 
 model Store {
-  id        String   @id @default(uuid())
-  name      String
+  id   String @id @default(uuid())
+  name String
+
+  creatorId String?
+  creator   User?    @relation("CreatedBy", fields: [creatorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
