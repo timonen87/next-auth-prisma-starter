@@ -56,11 +56,24 @@ model User {
 }
 
 model Store {
-  id   String @id @default(uuid())
-  name String
+  id     String  @id @default(uuid())
+  name   String
+  brands Brand[] @relation("StoreToBrand")
 
   creatorId String?
   creator   User?    @relation("CreatedBy", fields: [creatorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  id        String   @id @default(uuid())
+  storeId   String?
+  store     Store?   @relation("StoreToBrand", fields: [storeId], references: [id])
+  label     String
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
 }

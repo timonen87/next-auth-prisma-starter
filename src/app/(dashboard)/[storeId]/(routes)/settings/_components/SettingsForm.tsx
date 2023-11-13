@@ -63,12 +63,12 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(`/api/stories/${params.storeId}`);
       router.refresh();
       router.push("/");
-      console.log("Категория удалена");
+      console.log("Store deleted.");
     } catch (error: any) {
-      console.log("Что то произошло", error);
+      console.log("Make sure you removed all products and categories first.");
     } finally {
       setLoading(false);
       setOpen(false);
