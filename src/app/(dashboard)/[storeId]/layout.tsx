@@ -25,9 +25,10 @@ export default async function DashboardLayout({
   if (!store) {
     redirect("/");
   }
+
   return (
     <>
-      <div className="flex-col pt-20 pl-5">{children}</div>
+      <div className=" container flex-col pt-20 pl-5">{children}</div>
     </>
   );
 }
