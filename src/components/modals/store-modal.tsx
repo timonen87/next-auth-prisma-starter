@@ -1,6 +1,6 @@
 "use client";
 import * as z from "zod";
-import { useStoreModal } from "../../../hooks/use-store-modal";
+import { useStoreModal } from "../../hooks/use-store-modal";
 import { Modal } from "@/components/ui/modal";
 import axios from "axios";
 

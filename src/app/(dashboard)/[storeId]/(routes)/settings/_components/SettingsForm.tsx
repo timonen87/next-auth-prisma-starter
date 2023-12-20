@@ -21,7 +21,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "../../../../../../../hooks/use-origin";
+import { useOrigin } from "../../../../../../hooks/use-origin";
 
 const formShema = z.object({
   name: z.string().min(2),

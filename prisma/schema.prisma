@@ -56,24 +56,76 @@ model User {
 }
 
 model Store {
-  id     String  @id @default(uuid())
-  name   String
-  brands Brand[] @relation("StoreToBrand")
+  id           String        @id @default(uuid())
+  name         String
+  brands       Brand[]       @relation("StoreToBrand")
+  productTypes ProductType[] @relation("StoreToType")
+  products     Product[]     @relation("StoreToProduct")
 
-  creatorId String?
-  creator   User?    @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId String
+  creator   User     @relation("CreatedBy", fields: [creatorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Brand {
-  id        String   @id @default(uuid())
-  storeId   String?
-  store     Store?   @relation("StoreToBrand", fields: [storeId], references: [id])
-  label     String
-  imageUrl  String
+  id       String @id @default(uuid())
+  storeId  String
+  store    Store  @relation("StoreToBrand", fields: [storeId], references: [id])
+  label    String
+  imageUrl String
+
+  productTypes ProductType[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([storeId])
+}
+
+model ProductType {
+  id        String    @id @default(uuid())
+  storeId   String
+  store     Store     @relation("StoreToType", fields: [storeId], references: [id])
+  brandId   String
+  brand     Brand     @relation(fields: [brandId], references: [id])
+  name      String
+  products  Product[] @relation("ProductTypeToProduct")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([storeId])
+  @@index([brandId])
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  storeId       String
+  store         Store       @relation("StoreToProduct", fields: [storeId], references: [id])
+  productTypeId String
+  productType   ProductType @relation("ProductTypeToProduct", fields: [productTypeId], references: [id])
+  description   String?
+  atributes     Json?
+  name          String
+  price         Decimal
+  isFeatured    Boolean     @default(false)
+  isArchived    Boolean     @default(false)
+
+  images Image[] // Relation to Image model
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([storeId])
+  @@index([productTypeId])
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  productId String // Foreign Key to Product
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String // URL of the image
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
 }
