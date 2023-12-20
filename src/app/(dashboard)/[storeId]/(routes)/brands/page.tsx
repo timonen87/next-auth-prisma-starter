@@ -16,6 +16,7 @@ const BrandsPage = async ({ params }: { params: { storeId: string } }) => {
 
   const formattedBrands: BrandColumn[] = brands.map((item) => ({
     id: item.id,
+    imageUrl: item.imageUrl,
     label: item.label,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
