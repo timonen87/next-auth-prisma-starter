@@ -7,18 +7,15 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-// import { ApiAlert } from "@/components/ui/api-alert";
-
-import { columns, ProductTypeColumn } from "./columns";
 // import { ApiList } from "@/components/ui/api-list";
 
-interface ProductTypeClientClientProps {
-  data: ProductTypeColumn[];
+import { ProductColumn, columns } from "./columns";
+
+interface ProductsClientProps {
+  data: ProductColumn[];
 }
 
-export const ProductTypeClient: React.FC<ProductTypeClientClientProps> = ({
-  data,
-}) => {
+export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -26,20 +23,18 @@ export const ProductTypeClient: React.FC<ProductTypeClientClientProps> = ({
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`ProductType (${data.length})`}
-          description="Manage categories for your store"
+          title={`Каталог продукции (${data.length})`}
+          description="Упревление каталогом продукции"
         />
-        <Button
-          onClick={() => router.push(`/${params.storeId}/product-types/new`)}
-        >
+        <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <Plus className="mr-2 h-4 w-4" /> Добавить
         </Button>
       </div>
       <Separator />
       <DataTable searchKey="name" columns={columns} data={data} />
-      <Heading title="API" description="API Calls for Categories" />
+      <Heading title="API" description="API Calls for Products" />
       <Separator />
-      {/* <ApiList entityName="categories" entityIdName="categoryId" /> */}
+      {/* <ApiList entityName="products" entityIdName="productId" /> */}
     </>
   );
 };
